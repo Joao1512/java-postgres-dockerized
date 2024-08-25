@@ -1,4 +1,4 @@
-# Java and Postgres Dockerized
+# Java and Postgres with Jenkins - Dockerized
 
 # How to run:
 
