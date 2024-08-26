@@ -26,6 +26,7 @@ services:
     restart: on-failure
     ports:
       - 8080:8080
+      - 8001:8001 # remote debugging
     networks:
       - java-postgres
     environment:
@@ -34,9 +35,6 @@ services:
       POSTGRES_PASSWORD: /run/secrets/db-password
     secrets:
       - db-password
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
   jenkins:
     image: jenkins/jenkins:jdk17
     ports:
