@@ -35,19 +35,10 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
     secrets:
       - db-password
-  jenkins:
-    image: jenkins/jenkins:jdk17
-    ports:
-      - 8003:8080
-      # - 5000:5000
-    restart: on-failure
-    volumes:
-      - jenkinsVolume:/var/jenkins_home
 secrets:
   db-password:
-    file: db-password.txt
+    file: ./db-password.txt
 networks:
   java-postgres:
 volumes:
   postgresVolume:
-  jenkinsVolume:
