@@ -11,7 +11,7 @@ public class Connection {
         try {
             if (connection == null) {
                 String dbUrl = System.getenv("DB_URL");
-                String password = System.getenv("POSTGRES_PASSWORD");
+                String password = System.getenv("POSTGRES_PASSWORD_FILE");
                 Driver driver = DriverManager.getDriver(dbUrl);
                 DriverManager.registerDriver(driver);
                 connection = DriverManager.getConnection(dbUrl, "postgres", password);

@@ -4,7 +4,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: /run/secrets/db-password
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
     secrets:
       - db-password
     networks:
@@ -26,30 +26,19 @@ services:
     restart: on-failure
     ports:
       - 8080:8080
+      - 8001:8001 # remote debugging
     networks:
       - java-postgres
     environment:
       POSTGRES_DB_USER: postgres
       DB_URL: jdbc:postgresql://db:5432/postgres
-      POSTGRES_PASSWORD: /run/secrets/db-password
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-password
     secrets:
       - db-password
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
-  jenkins:
-    image: jenkins/jenkins:jdk17
-    ports:
-      - 8003:8080
-      # - 5000:5000
-    restart: on-failure
-    volumes:
-      - jenkinsVolume:/var/jenkins_home
 secrets:
   db-password:
-    file: db-password.txt
+    file: ./db-password.txt
 networks:
   java-postgres:
 volumes:
   postgresVolume:
-  jenkinsVolume:
