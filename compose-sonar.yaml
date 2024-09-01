@@ -1,6 +1,6 @@
 services:
   sonar:
-      image: sonarqube:lts-developer
+      image: sonarqube:lts-community
       ports:
         - 9000:9000
       restart: on-failure
