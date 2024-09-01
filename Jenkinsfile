@@ -10,23 +10,37 @@ pipeline {
     }
 
     stages {
-        stage('Maven clean install') {
+        stage('Compile and Build') {
             steps {
                 // Get code from GitHub repository
-               git branch: 'develop', credentialsId: 'Mac-key', url: 'git@github.com:Joao1512/java-postgres-dockerized.git'
+                git branch: 'develop', credentialsId: 'Mac-key', url: 'git@github.com:Joao1512/java-postgres-dockerized.git'
                 
                 dir('crud-jdbc') { 
-                    withSonarQubeEnv(installationName: 'Sonar Qube Server') {
                         // Run Maven command.
-                        sh "mvn -Dmaven.test.failure.ignore=true clean install verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Joao1512_java-postgres-dockerized_AZGuhD0xj7tplXc4khLP"
+                        sh "mvn clean install -DskipTests"
+                }
+            }
+        }
+        stage('Sonar static Analysis') {
+            steps {
+                timeout(time: 5, unit: "MINUTES") {                      
+                // Get code from GitHub repository
+                    git branch: 'develop', credentialsId: 'Mac-key', url: 'git@github.com:Joao1512/java-postgres-dockerized.git'
+                    
+                    dir('crud-jdbc') { 
+                        withSonarQubeEnv(installationName: 'Sonar Qube Server') {
+                            // Run Maven command.
+                            sh "mvn -Dmaven.test.failure.ignore=true verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Joao1512_java-postgres-dockerized_AZGuhD0xj7tplXc4khLP"
+                        }
+                        waitForQualityGate abortPipeline: true
                     }
                 }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Test something...'
-            }
+
+        stage('Tests') {
+        steps {
+            echo 'Test something...'
+        }
         }
     }
-}
