@@ -21,6 +21,7 @@ public class UserController {
     public ResponseEntity<List<User>> getAll() {
         try {
             List<User> response = userDAO.getAll();
+            if (response.isEmpty()) return ResponseEntity.noContent().build();
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -42,7 +43,8 @@ public class UserController {
     public ResponseEntity<String> insert(@RequestBody User user) {
         try {
             int result = userDAO.insert(user);
-            return  ResponseEntity.created(URI.create("/users" + result)).build();
+            if (result > 0) return  ResponseEntity.created(URI.create("/users" + result)).build();
+            return ResponseEntity.badRequest().build();
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
