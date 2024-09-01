@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ConnectionSingleton {
     private Connection connection = null;
     private static ConnectionSingleton connectionSingleton;
-    private static final Logger LOGGER = LoggerFactory.getLogger(Connection.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionSingleton.class);
 
     public static ConnectionSingleton getInstance() {
         if (connectionSingleton == null) {
@@ -29,10 +29,10 @@ public class ConnectionSingleton {
                 Driver driver = DriverManager.getDriver(dbUrl);
                 DriverManager.registerDriver(driver);
                 connection = DriverManager.getConnection(dbUrl, "postgres", password);
-                LOGGER.info("Successful connection!");
+                logger.info("Successful connection!");
             }
         } catch (SQLException exception) {
-            LOGGER.error("Connection failed: " + exception.getMessage());
+            logger.error(String.format("Connection failed: %s", exception.getMessage()));
         }
         return connection;
     }

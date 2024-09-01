@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class UserDAO {
     private final ConnectionSingleton connectionSingleton = ConnectionSingleton.getInstance();
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 
     public int insert(User user) {
 
@@ -24,7 +24,7 @@ public class UserDAO {
            statement.executeUpdate();
            return statement.getGeneratedKeys().getInt(1);
         } catch (SQLException exception) {
-            LOGGER.error("Delete failed: " + exception.getMessage());
+            logger.error(String.format("Insert failed: %s", exception.getMessage()));
             return 0;
         }
     }
@@ -44,7 +44,7 @@ public class UserDAO {
             }
             return null;
         } catch (SQLException exception) {
-            LOGGER.error("get failed: " + exception.getMessage());
+            logger.error(String.format("Get failed: %s", exception.getMessage()));
             return null;
         }
     }
@@ -63,8 +63,8 @@ public class UserDAO {
             }
             return users;
         } catch (SQLException exception) {
-            LOGGER.error("Delete failed: " + exception.getMessage());
-            return null;
+            logger.error(String.format("Get all failed: %s", exception.getMessage()));
+            return new ArrayList<>();
         }
     }
 
@@ -77,7 +77,7 @@ public class UserDAO {
             int result = statement.executeUpdate();
             return result > 1;
         } catch (SQLException exception) {
-            LOGGER.error("Delete failed: " + exception.getMessage());
+            logger.error("Delete failed: " + exception.getMessage());
             return false;
         }
     }

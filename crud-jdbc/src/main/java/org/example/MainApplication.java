@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class MainApplication {
     public static void main(String[] args) {
-        final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-        LOGGER.info(LocalDateTime.now().toString());
+        final Logger logger = LoggerFactory.getLogger(Main.class);
+        logger.info(LocalDateTime.now().toString());
         SpringApplication.run(MainApplication.class, args);
     }
 }
