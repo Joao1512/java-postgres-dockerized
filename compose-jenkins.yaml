@@ -6,17 +6,5 @@ services:
     restart: on-failure
     volumes:
       - jenkinsVolume:/var/jenkins_home
-  sonar:
-    image: sonarqube:lts-developer
-    ports:
-      - 9000:9000
-    restart: on-failure
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_extensions:/opt/sonarqube/extensions
 volumes:
     jenkinsVolume:
-    sonarqube_data:
-    sonarqube_logs:
-    sonarqube_extensions:
