@@ -1,11 +1,9 @@
-package org.example.model.User;
+package org.example.model.user;
 
 public class User {
 
     private String name;
     private int id;
-
-    public User() {};
 
     public String getName() {
         return name;

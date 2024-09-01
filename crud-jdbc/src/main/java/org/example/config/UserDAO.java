@@ -1,17 +1,23 @@
 package org.example.config;
 
-import org.example.model.User.User;
+import org.example.model.user.User;
 import org.example.query.UserQueries;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserDAO {
+    private ConnectionSingleton connectionSingleton = ConnectionSingleton.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);
 
     public int insert(User user) throws SQLException {
-        java.sql.Connection connection = org.example.config.Connection.connect();
+
+        Connection connection = connectionSingleton.connect();
 
        PreparedStatement statement = connection.prepareStatement(UserQueries.INSERT, Statement.RETURN_GENERATED_KEYS);
        statement.setString(1, user.getName());
@@ -20,9 +26,9 @@ public class UserDAO {
     }
 
     public User getById(Integer id) throws SQLException {
-        java.sql.Connection connection = org.example.config.Connection.connect();
+        Connection connection = connectionSingleton.connect();
 
-        PreparedStatement ps = connection.prepareStatement(UserQueries.GET_BY_ID);
+        PreparedStatement ps = connection.prepareStatement(UserQueries.GETBYID);
         ps.setInt(1, id);
         ResultSet result = ps.executeQuery();
         if (result.next()) {
@@ -34,10 +40,10 @@ public class UserDAO {
         return null;
     }
 
-    public ArrayList<User> getAll() throws SQLException {
-        java.sql.Connection connection = org.example.config.Connection.connect();
+    public List<User> getAll() throws SQLException {
+        Connection connection = connectionSingleton.connect();
 
-        PreparedStatement ps = connection.prepareStatement(UserQueries.GET_ALL);
+        PreparedStatement ps = connection.prepareStatement(UserQueries.GETALL);
         ResultSet result = ps.executeQuery();
         ArrayList<User> users = new ArrayList<>();
         while (result.next()) {
@@ -49,12 +55,17 @@ public class UserDAO {
         return users;
     }
 
-    public boolean delete(Integer id) throws SQLException {
-        java.sql.Connection connection = org.example.config.Connection.connect();
+    public boolean delete(Integer id) {
+        Connection connection = connectionSingleton.connect();
+        try {
 
-        PreparedStatement statement = connection.prepareStatement(UserQueries.DELETE);
-        statement.setInt(1, id);
-        int result = statement.executeUpdate();
-        return result > 1;
+            PreparedStatement statement = connection.prepareStatement(UserQueries.DELETE);
+            statement.setInt(1, id);
+            int result = statement.executeUpdate();
+            return result > 1;
+        } catch (SQLException exception) {
+            LOGGER.error("Delete failed: " + exception.getMessage());
+            return false;
+        }
     }
 }
