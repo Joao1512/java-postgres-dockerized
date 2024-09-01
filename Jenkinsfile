@@ -18,7 +18,7 @@ pipeline {
                 dir('crud-jdbc') { 
                     withSonarQubeEnv(installationName: 'Sonar Qube Server') {
                         // Run Maven command.
-                        sh "mvn -Dmaven.test.failure.ignore=true clean install verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Joao1512_java-postgres-dockerized_AZGuET8kLln6lOOQkp7r"
+                        sh "mvn -Dmaven.test.failure.ignore=true clean install verify org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar -Dsonar.projectKey=Joao1512_java-postgres-dockerized_AZGud5SD2pklivU1qCpE"
                     }
                 }
             }
