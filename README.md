@@ -1,4 +1,36 @@
-# Java and Postgres with Jenkins - Dockerized
+# Java and Postgres with CI/CD starter structure | Dockerized
+
+---
+
+**The project provides a initial structure with docker-compose containing java and postgres images, with ready integration with the database. Also, it will give you a starter CI/CD structure with Jenkins and SonarQube.** 
+
+![Document systems.png](readmedocs/readme-img-1.png)
+
+Volumes and Maven build configurations have already been defined. You can start from a generic CRUD to scale the application, having the initial configuration 100% functional.
+
+> 🔵 No ORM framework was implemented, it implements native JDBC, since the goal is to provide a generic starting structure on which you can scale the application. You can implement any other tool.
+> 
+
+> 🔵 It uses Spring Boot to create the Rest endoints instead of a JAX-RS implementation, in order to remove the serverlets configuration work.
+> 
+
+## CI/CD
+
+There are also docker-compose files for uploading jenkins and sonarQube instances. Follow the instructions to integrate the two tools into your project.
+
+The Jenkinsfile pipeline has three basic stages: Compile and Build, Sonar Static Analysis and Tests.
+
+> 🚩 The next update will a CD pipeline, allocating the artifacts in an artifactory and providing easy deployment.
+> 
+
+**Tools**:
+
+- Docker
+- Spring Boot
+- PostgreSQL
+- Jenkins
+- SonarQube
+- Everything was hosted on AWS EC2
 
 ## How to run Application:
 
