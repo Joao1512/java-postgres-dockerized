@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-app-java
+spec:
+  selector:
+    app: java
+    type: backend
+  ports:
+    - name: application
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  type: NodePort
