@@ -24,8 +24,8 @@ public class ConnectionSingleton {
     public Connection connect() {
         try {
             if (connection == null) {
-                String dbUrl = System.getenv("DB_URL");
-                String password = System.getenv("POSTGRES_PASSWORD_FILE");
+                String dbUrl = Environment.isDesenv() ? Environment.DB_DESENV_ADRESS : Environment.DB_PROD_ADRESS;
+                String password = System.getenv("DB_PASSWORD");
                 Driver driver = DriverManager.getDriver(dbUrl);
                 DriverManager.registerDriver(driver);
                 connection = DriverManager.getConnection(dbUrl, "postgres", password);

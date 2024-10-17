@@ -10,7 +10,7 @@ public final class UserQueries {
             "WHERE (" +
             "id = ?" +
             ")";
-    public static final String INSERT = "INSERT INTO users (nome) VALUES (?)";
+    public static final String INSERT = "INSERT INTO users (name) VALUES (?)";
 
     public static final String DELETE = "DELETE from users " +
             "WHERE (" +

@@ -15,21 +15,21 @@ public class UserDAO {
     private final ConnectionSingleton connectionSingleton = ConnectionSingleton.getInstance();
     private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
 
-    public int insert(User user) {
+    public int insert(User user) throws Exception {
 
         Connection connection = connectionSingleton.connect();
         try {
            PreparedStatement statement = connection.prepareStatement(UserQueries.INSERT, Statement.RETURN_GENERATED_KEYS);
            statement.setString(1, user.getName());
            statement.executeUpdate();
-           return statement.getGeneratedKeys().getInt(1);
+           return statement.getUpdateCount();
         } catch (SQLException exception) {
             logger.error(String.format("Insert failed: %s", exception.getMessage()));
-            return 0;
+            throw new Exception("Insert falied.");
         }
     }
 
-    public User getById(Integer id) {
+    public User getById(Integer id) throws Exception {
         Connection connection = connectionSingleton.connect();
         try {
 
@@ -45,10 +45,10 @@ public class UserDAO {
             return null;
         } catch (SQLException exception) {
             logger.error(String.format("Get failed: %s", exception.getMessage()));
-            return null;
+            throw new Exception("Get failed.");
         }
     }
-    public List<User> getAll() {
+    public List<User> getAll() throws Exception {
         Connection connection = connectionSingleton.connect();
         try {
 
@@ -64,11 +64,11 @@ public class UserDAO {
             return users;
         } catch (SQLException exception) {
             logger.error(String.format("Get all failed: %s", exception.getMessage()));
-            return new ArrayList<>();
+            throw new Exception("Get all failed.");
         }
     }
 
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id) throws Exception {
         Connection connection = connectionSingleton.connect();
         try {
 
@@ -78,7 +78,7 @@ public class UserDAO {
             return result > 1;
         } catch (SQLException exception) {
             logger.error("Delete failed: " + exception.getMessage());
-            return false;
+            throw new Exception("Delete failed.");
         }
     }
 }
