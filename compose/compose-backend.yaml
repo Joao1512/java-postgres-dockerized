@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ../crud-jdbc
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 8001:8001 # remote debugging
+    networks:
+      - java-postgres
+    environment:
+      DB_PASSWORD: <CHOOSE_A_PASSWORD> that`s not mine ;)
+    secrets:
+      - db-password
+secrets:
+  db-password:
+    file: ./db-password.txt
+networks:
+  java-postgres:
